@@ -155,6 +155,14 @@ export const fr = {
     allocation: "Répartition par type",
     value: "Valeur",
     exportJson: "Exporter (JSON)",
+    import: "Importer CSV",
+    importHint:
+      "Collez un relevé CSV (séparateur , ou ;) ou choisissez un fichier. Colonnes : nom, symbole, type, quantité, PRU, cours.",
+    importChoose: "Choisir un fichier",
+    importDo: "Importer",
+    importPlaceholder: "nom,symbole,type,quantité,PRU,cours",
+    importedN: "{n} position(s) importée(s)",
+    importNothing: "Rien à importer",
     manualNote:
       "Valorisation manuelle : saisissez le cours actuel de chaque position. Aucune donnée de marché n'est récupérée (cf. §11).",
   },
@@ -379,6 +387,14 @@ export const en = {
     allocation: "Allocation by type",
     value: "Value",
     exportJson: "Export (JSON)",
+    import: "Import CSV",
+    importHint:
+      "Paste a CSV statement (separator , or ;) or choose a file. Columns: name, symbol, type, quantity, avg cost, price.",
+    importChoose: "Choose a file",
+    importDo: "Import",
+    importPlaceholder: "name,symbol,type,quantity,avgCost,price",
+    importedN: "{n} position(s) imported",
+    importNothing: "Nothing to import",
     manualNote:
       "Manual valuation: enter the current price of each position. No market data is fetched.",
   },

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Plus, Pencil, Trash2, Download, Wallet } from "@lucide/svelte";
+  import { Plus, Pencil, Trash2, Download, Upload, Wallet } from "@lucide/svelte";
   import Card from "$lib/components/Card.svelte";
   import Stat from "$lib/components/Stat.svelte";
   import CostBar from "$lib/components/CostBar.svelte";
@@ -16,6 +16,7 @@
   } from "$lib/ipc";
   import { t } from "$lib/i18n";
   import { fmtEUR, fmtSignedEUR, fmtSignedPct, fmtNum } from "$lib/format";
+  import { parseHoldingsCsv } from "$lib/csv";
 
   let holdings = $state<Holding[]>([]);
   let loaded = $state(false);
@@ -34,6 +35,31 @@
     devise: "EUR",
   });
   let form = $state<NewHolding>(emptyForm());
+
+  // — Import CSV —
+  let showImport = $state(false);
+  let csvText = $state("");
+  let importResult = $state<number | null>(null);
+
+  async function doImport() {
+    const items = parseHoldingsCsv(csvText);
+    for (const it of items) await addHolding(it);
+    importResult = items.length;
+    if (items.length > 0) {
+      csvText = "";
+      await refresh();
+    }
+  }
+  function readFile(e: Event) {
+    const input = e.currentTarget as HTMLInputElement;
+    const file = input.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      csvText = String(reader.result ?? "");
+    };
+    reader.readAsText(file);
+  }
 
   async function refresh() {
     holdings = await listHoldings();
@@ -199,16 +225,60 @@
       </div>
     {/if}
 
+    {#if showImport}
+      <div class="card pad form-card">
+        <h2 class="h2">{t("portfolio.import")}</h2>
+        <p class="small muted">{t("portfolio.importHint")}</p>
+        <textarea
+          class="csv mono"
+          bind:value={csvText}
+          placeholder={t("portfolio.importPlaceholder")}
+          rows="6"
+        ></textarea>
+        <div class="form-actions">
+          <label class="btn ghost file-btn">
+            <input type="file" accept=".csv,text/csv,text/plain" onchange={readFile} hidden />
+            {t("portfolio.importChoose")}
+          </label>
+          <span class="spacer"></span>
+          {#if importResult != null}
+            <span class="small muted">
+              {importResult > 0
+                ? t("portfolio.importedN", { n: importResult })
+                : t("portfolio.importNothing")}
+            </span>
+          {/if}
+          <button
+            class="btn ghost"
+            type="button"
+            onclick={() => {
+              showImport = false;
+              importResult = null;
+            }}
+          >
+            {t("portfolio.cancel")}
+          </button>
+          <button class="btn cta" type="button" onclick={doImport} disabled={!csvText.trim()}>
+            {t("portfolio.importDo")}
+          </button>
+        </div>
+      </div>
+    {/if}
+
     {#if holdings.length === 0 && !showForm}
       <EmptyState
         icon={Wallet}
         title={t("portfolio.emptyTitle")}
         body={t("portfolio.emptyBody")}
       />
-      <div>
+      <div class="empty-actions">
         <button class="btn cta" type="button" onclick={startAdd}>
           <Plus size={16} aria-hidden="true" />
           {t("portfolio.addPosition")}
+        </button>
+        <button class="btn ghost" type="button" onclick={() => (showImport = true)}>
+          <Upload size={16} aria-hidden="true" />
+          {t("portfolio.import")}
         </button>
       </div>
     {:else if holdings.length > 0}
@@ -234,6 +304,10 @@
       <Card title={t("portfolio.positions")}>
         {#snippet actions()}
           <div class="hdr-actions">
+            <button class="btn ghost sm" type="button" onclick={() => (showImport = !showImport)}>
+              <Upload size={14} aria-hidden="true" />
+              {t("portfolio.import")}
+            </button>
             <button class="btn ghost sm" type="button" onclick={exportJson}>
               <Download size={14} aria-hidden="true" />
               {t("portfolio.exportJson")}
@@ -370,6 +444,31 @@
   }
   .in:focus {
     border-color: var(--accent);
+  }
+  .csv {
+    width: 100%;
+    resize: vertical;
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    padding: var(--space-3);
+    color: var(--ink);
+    font-size: var(--fs-small);
+    outline: none;
+  }
+  .csv:focus {
+    border-color: var(--accent);
+  }
+  .file-btn {
+    cursor: pointer;
+  }
+  .spacer {
+    flex: 1;
+  }
+  .empty-actions {
+    display: flex;
+    gap: var(--space-3);
+    flex-wrap: wrap;
   }
   .form-actions {
     display: flex;
