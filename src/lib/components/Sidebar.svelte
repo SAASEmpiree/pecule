@@ -11,6 +11,7 @@
     Landmark,
     Flame,
     Coins,
+    Receipt,
   } from "@lucide/svelte";
   import { t } from "$lib/i18n";
 
@@ -18,6 +19,7 @@
     { href: "/", icon: LayoutDashboard, key: "nav.dashboard" },
     { href: "/patrimoine", icon: Coins, key: "nav.networth" },
     { href: "/portefeuille", icon: Wallet, key: "nav.portfolio" },
+    { href: "/budget", icon: Receipt, key: "nav.budget" },
   ];
   const sims: { href: string; icon: typeof TrendingUp; key: string; soon?: boolean }[] = [
     { href: "/simulateurs/interets-composes", icon: TrendingUp, key: "nav.simCompound" },

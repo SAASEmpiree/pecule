@@ -44,6 +44,10 @@ pub fn run() {
             commands::networth::add_asset,
             commands::networth::update_asset,
             commands::networth::delete_asset,
+            commands::budget::list_expenses,
+            commands::budget::add_expense,
+            commands::budget::update_expense,
+            commands::budget::delete_expense,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

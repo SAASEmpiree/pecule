@@ -13,6 +13,7 @@
     SunMoon,
     Languages,
     Coins,
+    Receipt,
   } from "@lucide/svelte";
   import type { Component } from "svelte";
   import { t, loc, setLocale } from "$lib/i18n";
@@ -41,6 +42,7 @@
     { id: "dash", label: t("nav.dashboard"), group: t("palette.navigate"), icon: LayoutDashboard, run: () => go("/") },
     { id: "nw", label: t("nav.networth"), group: t("palette.navigate"), icon: Coins, run: () => go("/patrimoine") },
     { id: "pf", label: t("nav.portfolio"), group: t("palette.navigate"), icon: Wallet, run: () => go("/portefeuille") },
+    { id: "budget", label: t("nav.budget"), group: t("palette.navigate"), icon: Receipt, run: () => go("/budget") },
     { id: "subs", label: t("nav.subscriptions"), group: t("palette.navigate"), icon: CalendarClock, run: () => go("/abonnements") },
     { id: "sim-c", label: t("nav.simCompound"), group: t("palette.navigate"), icon: TrendingUp, run: () => go("/simulateurs/interets-composes") },
     { id: "sim-s", label: t("nav.simSavings"), group: t("palette.navigate"), icon: PiggyBank, run: () => go("/simulateurs/epargne") },

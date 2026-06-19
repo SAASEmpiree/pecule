@@ -342,3 +342,61 @@ export async function deleteAsset(id: number): Promise<void> {
   }
   saveAssets(lsAssets().filter((a) => a.id !== id));
 }
+
+// — Budget (v0.5) : dépenses / revenus — SQLite en natif, localStorage sinon. —
+export interface Expense {
+  id: number;
+  date: string;
+  montant: number;
+  categorie: string;
+  kind: string;
+  note: string | null;
+}
+export type NewExpense = Omit<Expense, "id">;
+
+const EXPENSES_KEY = "pecule:expenses";
+function lsExpenses(): Expense[] {
+  try {
+    const v = JSON.parse(localStorage.getItem(EXPENSES_KEY) || "[]");
+    return Array.isArray(v) ? v : [];
+  } catch {
+    return [];
+  }
+}
+function saveExpenses(e: Expense[]): void {
+  try {
+    localStorage.setItem(EXPENSES_KEY, JSON.stringify(e));
+  } catch {
+    /* ignore */
+  }
+}
+
+export async function listExpenses(): Promise<Expense[]> {
+  if (isTauri()) return invoke<Expense[]>("list_expenses");
+  return lsExpenses().sort((a, b) => (a.date < b.date ? 1 : a.date > b.date ? -1 : b.id - a.id));
+}
+
+export async function addExpense(expense: NewExpense): Promise<number> {
+  if (isTauri()) return invoke<number>("add_expense", { expense });
+  const list = lsExpenses();
+  const id = list.reduce((m, e) => Math.max(m, e.id), 0) + 1;
+  list.push({ ...expense, id });
+  saveExpenses(list);
+  return id;
+}
+
+export async function updateExpense(expense: Expense): Promise<void> {
+  if (isTauri()) {
+    await invoke("update_expense", { expense });
+    return;
+  }
+  saveExpenses(lsExpenses().map((e) => (e.id === expense.id ? expense : e)));
+}
+
+export async function deleteExpense(id: number): Promise<void> {
+  if (isTauri()) {
+    await invoke("delete_expense", { id });
+    return;
+  }
+  saveExpenses(lsExpenses().filter((e) => e.id !== id));
+}

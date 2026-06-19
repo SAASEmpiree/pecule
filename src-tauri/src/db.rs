@@ -78,6 +78,16 @@ CREATE TABLE IF NOT EXISTS assets (
     valeur    REAL NOT NULL,
     est_dette INTEGER NOT NULL DEFAULT 0 -- 1 = passif (dette)
 );
+
+-- v4 : budget (dépenses / revenus)
+CREATE TABLE IF NOT EXISTS expenses (
+    id        INTEGER PRIMARY KEY,
+    date      TEXT NOT NULL,             -- ISO 8601 (AAAA-MM-JJ)
+    montant   REAL NOT NULL,
+    categorie TEXT NOT NULL,
+    kind      TEXT NOT NULL,             -- 'depense' | 'revenu'
+    note      TEXT
+);
 "#;
 
 impl Db {
@@ -113,6 +123,10 @@ fn migrate(conn: &Connection) -> rusqlite::Result<()> {
         // La table `assets` est créée par le schéma de base (IF NOT EXISTS) ;
         // on enregistre simplement la version.
         conn.pragma_update(None, "user_version", 3)?;
+    }
+    if version < 4 {
+        // La table `expenses` est créée par le schéma de base (IF NOT EXISTS).
+        conn.pragma_update(None, "user_version", 4)?;
     }
     Ok(())
 }
