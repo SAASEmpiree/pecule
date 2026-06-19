@@ -35,6 +35,10 @@ pub fn run() {
             commands::portfolio::add_holding,
             commands::portfolio::update_holding,
             commands::portfolio::delete_holding,
+            commands::subscriptions::list_subscriptions,
+            commands::subscriptions::add_subscription,
+            commands::subscriptions::update_subscription,
+            commands::subscriptions::delete_subscription,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

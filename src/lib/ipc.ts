@@ -199,3 +199,61 @@ export async function deleteHolding(id: number): Promise<void> {
   }
   saveHoldings(lsHoldings().filter((h) => h.id !== id));
 }
+
+// — Abonnements (v0.3) — persistance SQLite en natif, localStorage en navigateur. —
+export interface Subscription {
+  id: number;
+  nom: string;
+  categorie: string | null;
+  montant: number;
+  frequence: string;
+  prochainPrelevement: string | null;
+  actif: boolean;
+}
+export type NewSubscription = Omit<Subscription, "id">;
+
+const SUBS_KEY = "pecule:subscriptions";
+function lsSubs(): Subscription[] {
+  try {
+    const v = JSON.parse(localStorage.getItem(SUBS_KEY) || "[]");
+    return Array.isArray(v) ? v : [];
+  } catch {
+    return [];
+  }
+}
+function saveSubs(s: Subscription[]): void {
+  try {
+    localStorage.setItem(SUBS_KEY, JSON.stringify(s));
+  } catch {
+    /* ignore */
+  }
+}
+
+export async function listSubscriptions(): Promise<Subscription[]> {
+  return isTauri() ? invoke<Subscription[]>("list_subscriptions") : lsSubs();
+}
+
+export async function addSubscription(subscription: NewSubscription): Promise<number> {
+  if (isTauri()) return invoke<number>("add_subscription", { subscription });
+  const list = lsSubs();
+  const id = list.reduce((m, s) => Math.max(m, s.id), 0) + 1;
+  list.push({ ...subscription, id });
+  saveSubs(list);
+  return id;
+}
+
+export async function updateSubscription(subscription: Subscription): Promise<void> {
+  if (isTauri()) {
+    await invoke("update_subscription", { subscription });
+    return;
+  }
+  saveSubs(lsSubs().map((s) => (s.id === subscription.id ? subscription : s)));
+}
+
+export async function deleteSubscription(id: number): Promise<void> {
+  if (isTauri()) {
+    await invoke("delete_subscription", { id });
+    return;
+  }
+  saveSubs(lsSubs().filter((s) => s.id !== id));
+}

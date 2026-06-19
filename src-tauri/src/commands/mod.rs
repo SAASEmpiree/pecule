@@ -4,3 +4,4 @@
 pub mod portfolio;
 pub mod settings;
 pub mod simulate;
+pub mod subscriptions;

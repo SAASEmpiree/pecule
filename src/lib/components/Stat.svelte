@@ -1,5 +1,5 @@
 <script lang="ts">
-  type Tone = "neutral" | "gain" | "loss" | "accent";
+  type Tone = "neutral" | "gain" | "loss" | "accent" | "soon";
   let {
     label,
     value,
@@ -19,7 +19,8 @@
     class="value mono"
     class:gain={tone === "gain"}
     class:loss={tone === "loss"}
-    class:accent={tone === "accent"}>{value}</span
+    class:accent={tone === "accent"}
+    class:soon={tone === "soon"}>{value}</span
   >
   {#if sub}
     <span
