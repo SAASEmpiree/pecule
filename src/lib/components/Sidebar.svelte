@@ -10,11 +10,13 @@
     PiggyBank,
     Landmark,
     Flame,
+    Coins,
   } from "@lucide/svelte";
   import { t } from "$lib/i18n";
 
   const primary = [
     { href: "/", icon: LayoutDashboard, key: "nav.dashboard" },
+    { href: "/patrimoine", icon: Coins, key: "nav.networth" },
     { href: "/portefeuille", icon: Wallet, key: "nav.portfolio" },
   ];
   const sims = [

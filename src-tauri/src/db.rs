@@ -69,6 +69,15 @@ CREATE TABLE IF NOT EXISTS simulations (
     parametres_json TEXT NOT NULL,
     cree_le         TEXT NOT NULL
 );
+
+-- v3 : patrimoine net (actifs/passifs saisis manuellement, hors portefeuille)
+CREATE TABLE IF NOT EXISTS assets (
+    id        INTEGER PRIMARY KEY,
+    nom       TEXT NOT NULL,
+    type      TEXT NOT NULL,             -- compte, epargne, immobilier, autre, dette
+    valeur    REAL NOT NULL,
+    est_dette INTEGER NOT NULL DEFAULT 0 -- 1 = passif (dette)
+);
 "#;
 
 impl Db {
@@ -99,6 +108,11 @@ fn migrate(conn: &Connection) -> rusqlite::Result<()> {
              INSERT OR IGNORE INTO accounts (id, nom, type) VALUES (1, 'Mon portefeuille', 'CTO');",
         )?;
         conn.pragma_update(None, "user_version", 2)?;
+    }
+    if version < 3 {
+        // La table `assets` est créée par le schéma de base (IF NOT EXISTS) ;
+        // on enregistre simplement la version.
+        conn.pragma_update(None, "user_version", 3)?;
     }
     Ok(())
 }

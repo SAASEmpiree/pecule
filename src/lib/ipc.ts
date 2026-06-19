@@ -257,3 +257,59 @@ export async function deleteSubscription(id: number): Promise<void> {
   }
   saveSubs(lsSubs().filter((s) => s.id !== id));
 }
+
+// — Patrimoine net (v0.4) : actifs/passifs — SQLite en natif, localStorage sinon. —
+export interface Asset {
+  id: number;
+  nom: string;
+  type: string;
+  valeur: number;
+  estDette: boolean;
+}
+export type NewAsset = Omit<Asset, "id">;
+
+const ASSETS_KEY = "pecule:assets";
+function lsAssets(): Asset[] {
+  try {
+    const v = JSON.parse(localStorage.getItem(ASSETS_KEY) || "[]");
+    return Array.isArray(v) ? v : [];
+  } catch {
+    return [];
+  }
+}
+function saveAssets(a: Asset[]): void {
+  try {
+    localStorage.setItem(ASSETS_KEY, JSON.stringify(a));
+  } catch {
+    /* ignore */
+  }
+}
+
+export async function listAssets(): Promise<Asset[]> {
+  return isTauri() ? invoke<Asset[]>("list_assets") : lsAssets();
+}
+
+export async function addAsset(asset: NewAsset): Promise<number> {
+  if (isTauri()) return invoke<number>("add_asset", { asset });
+  const list = lsAssets();
+  const id = list.reduce((m, a) => Math.max(m, a.id), 0) + 1;
+  list.push({ ...asset, id });
+  saveAssets(list);
+  return id;
+}
+
+export async function updateAsset(asset: Asset): Promise<void> {
+  if (isTauri()) {
+    await invoke("update_asset", { asset });
+    return;
+  }
+  saveAssets(lsAssets().map((a) => (a.id === asset.id ? asset : a)));
+}
+
+export async function deleteAsset(id: number): Promise<void> {
+  if (isTauri()) {
+    await invoke("delete_asset", { id });
+    return;
+  }
+  saveAssets(lsAssets().filter((a) => a.id !== id));
+}
