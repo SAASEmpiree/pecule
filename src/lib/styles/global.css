@@ -1,0 +1,211 @@
+/* ============================================================================
+   Pécule — styles globaux : reset léger, base typographique, utilitaires.
+   ============================================================================ */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+html {
+  background: var(--bg);
+  color-scheme: dark;
+}
+
+[data-theme="light"] {
+  color-scheme: light;
+}
+
+body {
+  font-family: var(--font-sans);
+  font-size: var(--fs-body);
+  line-height: var(--lh-normal);
+  color: var(--ink);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow: hidden; /* l'app gère son propre défilement par panneau */
+}
+
+h1, h2, h3, p, figure {
+  margin: 0;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+input, select, textarea, button {
+  font-family: inherit;
+}
+
+/* — Chiffres monétaires : largeur fixe pour aligner les colonnes (§4.3) — */
+.mono,
+.tnum {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+}
+
+/* — Sémantique de performance — */
+.gain { color: var(--gain); }
+.loss { color: var(--loss); }
+.soon { color: var(--soon); }
+.muted { color: var(--muted); }
+.accent { color: var(--accent); }
+
+/* — Typo utilitaire — */
+.display { font-size: var(--fs-display); font-weight: 600; line-height: var(--lh-tight); letter-spacing: -0.01em; }
+.h1 { font-size: var(--fs-h1); font-weight: 600; line-height: var(--lh-tight); letter-spacing: -0.01em; }
+.h2 { font-size: var(--fs-h2); font-weight: 600; line-height: 1.25; }
+.small { font-size: var(--fs-small); }
+
+/* — Carte / panneau — */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-soft);
+}
+
+/* — Accessibilité : focus visible cohérent (accent sarcelle) — */
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* — Barres de défilement discrètes — */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-thumb {
+  background: var(--surface-2);
+  border-radius: 999px;
+  border: 2px solid var(--bg);
+}
+::-webkit-scrollbar-thumb:hover { background: var(--line); }
+
+::selection {
+  background: var(--accent-soft);
+  color: var(--ink);
+}
+
+/* — Mouvement réduit respecté (§4.8, §21) — */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* — Curseurs (input range) cohérents, accent sarcelle — */
+input[type="range"].range {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 22px;
+  background: transparent;
+  cursor: pointer;
+}
+input[type="range"].range::-webkit-slider-runnable-track {
+  height: 6px;
+  border-radius: 999px;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+}
+input[type="range"].range::-moz-range-track {
+  height: 6px;
+  border-radius: 999px;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+}
+input[type="range"].range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  margin-top: -7px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 3px solid var(--surface);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+  transition: transform var(--dur-fast) var(--ease);
+}
+input[type="range"].range::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 3px solid var(--surface);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+input[type="range"].range:active::-webkit-slider-thumb {
+  transform: scale(1.12);
+}
+input[type="range"].range:focus-visible::-webkit-slider-thumb {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+/* — Aides de mise en page de contenu — */
+.page-head {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: var(--space-6);
+}
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+.stack-6 {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+.cols {
+  display: grid;
+  grid-template-columns: 340px 1fr;
+  gap: var(--space-6);
+  align-items: start;
+}
+.statgrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: var(--space-6) var(--space-4);
+}
+@media (max-width: 900px) {
+  .cols {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Lecteurs d'écran uniquement */
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

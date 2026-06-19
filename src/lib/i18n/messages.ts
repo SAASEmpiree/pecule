@@ -1,0 +1,203 @@
+// Dictionnaires de traduction. Le français est prioritaire (§22) ; l'anglais est
+// partiel et retombe sur le français pour les clés manquantes.
+
+export const fr = {
+  app: {
+    name: "Pécule",
+    tagline: "Votre argent, au clair et au calme.",
+  },
+  nav: {
+    dashboard: "Tableau de bord",
+    portfolio: "Portefeuille",
+    simulators: "Simulateurs",
+    subscriptions: "Abonnements",
+    settings: "Réglages",
+    simCompound: "Intérêts composés",
+    simSavings: "Épargne régulière",
+    simLoan: "Prêt immobilier",
+    simFire: "Indépendance (FIRE)",
+  },
+  header: {
+    privacy: "Local · vos chiffres restent chez vous",
+    theme: "Changer de thème",
+    language: "Changer de langue",
+  },
+  common: {
+    years: "ans",
+    year: "an",
+    perMonth: "/mois",
+    perYear: "/an",
+    hypotheses: "Hypothèses",
+    results: "Résultats",
+    soon: "Bientôt",
+    comingIn: "Prévu en {v}",
+    reset: "Réinitialiser",
+    total: "Total",
+    contributed: "Versé",
+    interest: "Intérêts",
+    value: "Valeur",
+    rate: "Taux annuel",
+    duration: "Durée",
+    amount: "Montant",
+    today: "aujourd'hui",
+    inYears: "+{n} ans",
+    notAdvice: "Outil pédagogique — aucun conseil en investissement.",
+    notAdviceLong:
+      "Pécule est un outil de suivi et de pédagogie. Les projections reposent sur des hypothèses constantes et ne préjugent pas des performances réelles. Ceci ne constitue pas un conseil en investissement.",
+  },
+  dashboard: {
+    investedWealth: "Patrimoine investi",
+    subscriptionsCost: "Abonnements",
+    toRenew: "À renouveler",
+    nothingToRenew: "Aucun renouvellement proche",
+    curveTitle: "La courbe",
+    projectionOver: "Projection sur",
+    emptyTitle: "Bienvenue dans Pécule",
+    emptyBody:
+      "Commencez par un simulateur — aucune donnée personnelle requise. Le portefeuille et les abonnements arriveront dans les prochaines versions.",
+    exploreSimulators: "Explorer les simulateurs",
+    sampleNote: "Exemple : {monthly} {per} placés à {rate}/an.",
+    projectedValue: "Valeur projetée",
+    ofWhichInterest: "dont {v} d'intérêts",
+  },
+  compound: {
+    title: "Intérêts composés",
+    desc: "La croissance d'un capital placé une fois, sans versement.",
+    principal: "Capital initial",
+    frequency: "Capitalisation",
+    freqAnnual: "Annuelle",
+    freqMonthly: "Mensuelle",
+    freqQuarterly: "Trimestrielle",
+    finalValue: "Valeur finale",
+    totalInterest: "Intérêts gagnés",
+  },
+  savings: {
+    title: "Épargne régulière",
+    desc: "Un capital de départ complété par des versements mensuels constants.",
+    initial: "Capital de départ",
+    monthly: "Versement mensuel",
+    timing: "Versement",
+    timingStart: "Début de mois",
+    timingEnd: "Fin de mois",
+    finalValue: "Valeur finale",
+    totalContributed: "Total versé",
+    totalInterest: "Intérêts gagnés",
+  },
+  loan: {
+    title: "Prêt immobilier",
+    desc: "Mensualité, coût total et tableau d'amortissement.",
+    amount: "Montant emprunté",
+    term: "Durée (années)",
+    insurance: "Assurance (taux annuel)",
+    monthlyPayment: "Mensualité (hors assurance)",
+    monthlyInsurance: "Assurance / mois",
+    monthlyTotal: "Mensualité totale",
+    totalInterest: "Coût des intérêts",
+    totalInsurance: "Coût de l'assurance",
+    totalCost: "Coût total du crédit",
+    schedule: "Tableau d'amortissement",
+    month: "Mois",
+    payment: "Mensualité",
+    principalPart: "Capital",
+    interestPart: "Intérêts",
+    balance: "Restant dû",
+    showSchedule: "Afficher le tableau d'amortissement",
+    hideSchedule: "Masquer le tableau",
+    yearN: "Année {n}",
+  },
+  fire: {
+    title: "Indépendance financière (FIRE)",
+    body: "L'objectif d'indépendance financière — taux de retrait, capital cible et années restantes — arrivera dans une prochaine version.",
+  },
+  simulatorsHub: {
+    title: "Simulateurs",
+    desc: "Projetez vos projets financiers. Aucune donnée personnelle requise.",
+  },
+  portfolio: {
+    title: "Portefeuille",
+    emptyTitle: "Le suivi de portefeuille arrive bientôt",
+    emptyBody:
+      "Vous pourrez saisir vos positions (actions, ETF, crypto) ou importer le CSV de votre courtier. Tout restera sur votre machine.",
+  },
+  subscriptions: {
+    title: "Abonnements",
+    emptyTitle: "Le traqueur d'abonnements arrive bientôt",
+    emptyBody:
+      "Listez vos abonnements, voyez leur coût annuel réel et soyez prévenu avant chaque renouvellement.",
+  },
+  settings: {
+    title: "Réglages",
+    appearance: "Apparence",
+    theme: "Thème",
+    dark: "Sombre",
+    light: "Clair",
+    language: "Langue",
+    french: "Français",
+    english: "English",
+    privacyTitle: "Confidentialité",
+    privacyBody:
+      "Tout est stocké sur votre machine. Aucun compte, aucune banque connectée, aucune télémétrie, aucune publicité. Vos positions ne quittent jamais l'appareil.",
+    quotesNuance:
+      "Seule entorse possible et optionnelle : le rafraîchissement de cours publics (prix d'un ETF, d'une action…), désactivé par défaut. Il n'envoie jamais vos positions.",
+    about: "À propos",
+    version: "Version",
+    disclaimerTitle: "Avertissement",
+  },
+  privacy: {
+    pill: "Local · vos chiffres restent chez vous",
+    title: "Comment ça marche",
+    body1:
+      "Pécule fonctionne entièrement en local. Vos données financières sont stockées sur votre machine, jamais sur un serveur.",
+    body2:
+      "Aucun compte à créer, aucune banque à connecter. L'application fonctionne hors-ligne.",
+    body3:
+      "Si vous activez un jour le rafraîchissement des cours, seuls des prix publics sont récupérés — vos positions, elles, restent chez vous.",
+  },
+} as const;
+
+// Anglais partiel : complète le strict nécessaire, le reste retombe sur le FR.
+export const en = {
+  app: {
+    name: "Pécule",
+    tagline: "Your money, clear and calm.",
+  },
+  nav: {
+    dashboard: "Dashboard",
+    portfolio: "Portfolio",
+    simulators: "Simulators",
+    subscriptions: "Subscriptions",
+    settings: "Settings",
+    simCompound: "Compound interest",
+    simSavings: "Regular savings",
+    simLoan: "Mortgage",
+    simFire: "Financial independence",
+  },
+  header: {
+    privacy: "Local · your numbers stay with you",
+    theme: "Toggle theme",
+    language: "Change language",
+  },
+  common: {
+    years: "yrs",
+    year: "yr",
+    perMonth: "/mo",
+    perYear: "/yr",
+    hypotheses: "Assumptions",
+    results: "Results",
+    today: "today",
+    inYears: "+{n} yrs",
+    notAdvice: "Educational tool — not investment advice.",
+  },
+  settings: {
+    title: "Settings",
+    appearance: "Appearance",
+    theme: "Theme",
+    dark: "Dark",
+    light: "Light",
+    language: "Language",
+    french: "Français",
+    english: "English",
+  },
+};
+
+export type Dict = typeof fr;

@@ -1,0 +1,86 @@
+/* ============================================================================
+   Pécule — jetons de design (§4 du cahier de conception)
+   Parti pris : sombre par défaut. La couleur encode du SENS :
+   sarcelle = action/marque · vert = plus-value · rouge = moins-value ·
+   ambre = échéance proche.
+   ============================================================================ */
+
+:root {
+  /* — Couleurs : thème sombre (défaut) — */
+  --bg:        #0B0F14; /* fond, bleu-nuit très sombre */
+  --surface:   #121821; /* cartes, panneaux */
+  --surface-2: #1A222D; /* survol, surélevé */
+  --ink:       #E9EEF3; /* texte principal */
+  --muted:     #8A97A6; /* texte secondaire */
+  --accent:    #16BFA6; /* ACTION / MARQUE : sarcelle */
+  --accent-ink: #04130F; /* texte sur fond accent */
+  --gain:      #2FBF71; /* plus-value (sémantique) */
+  --loss:      #F0584B; /* moins-value (sémantique) */
+  --soon:      #E0A106; /* renouvellement proche */
+  --line:      #1E2730; /* filets */
+
+  /* dérivés (halos, fonds teintés) */
+  --accent-soft: rgba(22, 191, 166, 0.14);
+  --gain-soft:   rgba(47, 191, 113, 0.14);
+  --loss-soft:   rgba(240, 88, 75, 0.14);
+  --soon-soft:   rgba(224, 161, 6, 0.14);
+  --focus:       rgba(22, 191, 166, 0.55);
+
+  /* — Typographie — */
+  --font-sans: "Hanken Grotesk", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+
+  /* échelle (base 16px, ratio ~1.25) */
+  --fs-display: 40px;
+  --fs-h1:      28px;
+  --fs-h2:      21px;
+  --fs-body:    15px;
+  --fs-small:   13px;
+  --lh-tight:   1.15;
+  --lh-normal:  1.5;
+
+  /* — Espacement — */
+  --space-1: 4px;  --space-2: 8px;  --space-3: 12px;
+  --space-4: 16px; --space-6: 24px; --space-8: 32px; --space-12: 48px;
+
+  /* — Rayons — */
+  --radius-sm: 10px;  /* boutons, champs */
+  --radius-md: 14px;  /* cartes, widgets */
+  --radius-lg: 20px;  /* panneaux */
+  --radius-pill: 999px;
+
+  /* — Ombres — */
+  --shadow-soft: 0 1px 2px rgba(0, 0, 0, 0.25), 0 12px 36px rgba(0, 0, 0, 0.28);
+  --shadow-pop:  0 8px 28px rgba(0, 0, 0, 0.45);
+
+  /* — Divers — */
+  --sidebar-w: 252px;
+  --header-h: 56px;
+  --dur-fast: 120ms;
+  --dur-mid: 240ms;
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+/* — Couleurs : thème clair — */
+[data-theme="light"] {
+  --bg:        #F3F6F8;
+  --surface:   #FFFFFF;
+  --surface-2: #EAEFF3;
+  --ink:       #0E1620;
+  --muted:     #5A6776;
+  --accent:    #0E9E89;
+  --accent-ink: #FFFFFF;
+  --gain:      #128A50;
+  --loss:      #C8362B;
+  --soon:      #B5790A;
+  --line:      #DCE3E9;
+
+  --accent-soft: rgba(14, 158, 137, 0.12);
+  --gain-soft:   rgba(18, 138, 80, 0.12);
+  --loss-soft:   rgba(200, 54, 43, 0.12);
+  --soon-soft:   rgba(181, 121, 10, 0.14);
+  --focus:       rgba(14, 158, 137, 0.45);
+
+  --shadow-soft: 0 1px 2px rgba(16, 32, 48, 0.06), 0 12px 32px rgba(16, 32, 48, 0.10);
+  --shadow-pop:  0 8px 28px rgba(16, 32, 48, 0.18);
+}
