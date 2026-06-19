@@ -1,8 +1,9 @@
 <script lang="ts">
-  import { Lock, Sun, Moon, Languages } from "@lucide/svelte";
+  import { Lock, Sun, Moon, Languages, Search } from "@lucide/svelte";
   import Logo from "./Logo.svelte";
   import { theme, toggleTheme } from "$lib/theme.svelte";
   import { loc, setLocale, t } from "$lib/i18n";
+  import { openPalette } from "$lib/palette.svelte";
 </script>
 
 <header class="header" data-tauri-drag-region>
@@ -17,6 +18,16 @@
   </a>
 
   <div class="controls">
+    <button
+      class="kbd-btn"
+      type="button"
+      onclick={openPalette}
+      aria-label="Commandes (⌘K)"
+      title="⌘K"
+    >
+      <Search size={15} aria-hidden="true" />
+      <kbd>⌘K</kbd>
+    </button>
     <button
       class="icon-btn"
       type="button"
@@ -116,5 +127,25 @@
   }
   .lang .mono {
     font-weight: 600;
+  }
+  .kbd-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    height: 34px;
+    padding: 0 10px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--line);
+    background: var(--surface-2);
+    color: var(--muted);
+    transition: color var(--dur-fast) var(--ease), background var(--dur-fast) var(--ease);
+  }
+  .kbd-btn:hover {
+    color: var(--ink);
+    background: var(--surface);
+  }
+  .kbd-btn kbd {
+    font-family: var(--font-mono);
+    font-size: 11px;
   }
 </style>

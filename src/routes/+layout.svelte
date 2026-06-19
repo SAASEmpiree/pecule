@@ -12,6 +12,7 @@
 
   import Header from "$lib/components/Header.svelte";
   import Sidebar from "$lib/components/Sidebar.svelte";
+  import CommandPalette from "$lib/components/CommandPalette.svelte";
   // Importé pour appliquer le thème enregistré dès le chargement.
   import "$lib/theme.svelte";
 
@@ -27,6 +28,8 @@
     </div>
   </main>
 </div>
+
+<CommandPalette />
 
 <style>
   .shell {

@@ -39,6 +39,14 @@ export const fr = {
     notAdviceLong:
       "Pécule est un outil de suivi et de pédagogie. Les projections reposent sur des hypothèses constantes et ne préjugent pas des performances réelles. Ceci ne constitue pas un conseil en investissement.",
   },
+  palette: {
+    placeholder: "Rechercher ou lancer une commande…",
+    navigate: "Aller à",
+    actions: "Actions",
+    empty: "Aucun résultat",
+    toggleTheme: "Basculer le thème",
+    toggleLang: "Changer de langue",
+  },
   dashboard: {
     curveTitle: "La courbe",
     projectedValue: "Valeur projetée",
@@ -196,6 +204,14 @@ export const en = {
     notAdvice: "Educational tool — not investment advice.",
     notAdviceLong:
       "Pécule is a tracking and educational tool. Projections rely on constant assumptions and do not predict real performance. This is not investment advice.",
+  },
+  palette: {
+    placeholder: "Search or run a command…",
+    navigate: "Go to",
+    actions: "Actions",
+    empty: "No result",
+    toggleTheme: "Toggle theme",
+    toggleLang: "Change language",
   },
   dashboard: {
     curveTitle: "The curve",
