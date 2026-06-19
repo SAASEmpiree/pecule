@@ -1,7 +1,7 @@
 {
   "name": "pecule",
   "version": "0.1.0",
-  "description": "",
+  "description": "Pécule — finance personnelle, locale et privée (Tauri + Rust + SvelteKit)",
   "type": "module",
   "scripts": {
     "dev": "vite dev",
@@ -16,8 +16,7 @@
     "@fontsource/hanken-grotesk": "^5.2.8",
     "@fontsource/ibm-plex-mono": "^5.2.7",
     "@lucide/svelte": "^1.21.0",
-    "@tauri-apps/api": "^2",
-    "@tauri-apps/plugin-opener": "^2"
+    "@tauri-apps/api": "^2"
   },
   "devDependencies": {
     "@sveltejs/adapter-static": "^3.0.6",

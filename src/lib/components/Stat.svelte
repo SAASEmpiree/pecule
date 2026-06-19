@@ -1,17 +1,15 @@
 <script lang="ts">
-  type Tone = "neutral" | "gain" | "loss" | "accent" | "soon";
+  type Tone = "neutral" | "gain" | "loss" | "accent";
   let {
     label,
     value,
     sub,
     tone = "neutral",
-    big = false,
   }: {
     label: string;
     value: string;
     sub?: string;
     tone?: Tone;
-    big?: boolean;
   } = $props();
 </script>
 
@@ -19,11 +17,9 @@
   <span class="small muted label">{label}</span>
   <span
     class="value mono"
-    class:big
     class:gain={tone === "gain"}
     class:loss={tone === "loss"}
-    class:accent={tone === "accent"}
-    class:soon={tone === "soon"}>{value}</span
+    class:accent={tone === "accent"}>{value}</span
   >
   {#if sub}
     <span
@@ -49,9 +45,7 @@
     font-weight: 500;
     line-height: 1.1;
   }
-  .value.big {
-    font-size: var(--fs-display);
-    font-weight: 600;
-    letter-spacing: -0.01em;
+  .value.accent {
+    color: var(--accent);
   }
 </style>

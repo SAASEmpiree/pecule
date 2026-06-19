@@ -52,11 +52,14 @@ pub fn compound(params: &CompoundParams) -> CompoundResult {
     // au temps fractionnaire pour produire une courbe lisse.
     let value_at = |year: f64| future_value(principal, params.annual_rate, n, year);
 
-    let final_value = value_at(params.years);
+    // Nombre de mois à projeter (borné et sûr, cf. `super::months_count`).
+    let months = super::months_count(params.years);
 
-    // Nombre de mois entiers à projeter (borne incluse). On ne descend jamais
-    // en dessous de 0 même si `years` est nul ou négatif.
-    let months = months_count(params.years);
+    // `final_value` est calculé au dernier instant tracé (`months / 12`) afin
+    // d'être strictement cohérent avec l'extrémité droite de la courbe : aucun
+    // écart entre le chiffre « valeur finale » et le bout du graphe.
+    let last_year = f64::from(months) / 12.0;
+    let final_value = value_at(last_year);
 
     let mut series = Vec::with_capacity(months as usize + 1);
     for k in 0..=months {
@@ -80,16 +83,6 @@ fn future_value(principal: f64, annual_rate: f64, n: u32, years: f64) -> f64 {
     let base = 1.0 + annual_rate / n_f;
     let exponent = n_f * years;
     principal * base.powf(exponent)
-}
-
-/// Nombre de mois à projeter (`round(years · 12)`), jamais négatif.
-fn months_count(years: f64) -> u32 {
-    if years <= 0.0 {
-        return 0;
-    }
-    // `round` puis cast sûr : la valeur est positive et finie ici, et le cast
-    // saturant garantit l'absence d'UB même pour des durées extrêmes.
-    (years * 12.0).round() as u32
 }
 
 #[cfg(test)]

@@ -73,10 +73,11 @@ export function loan(p: LoanParams): LoanResult {
   const prime = (p.principal * p.insuranceAnnualRate) / 12;
 
   if (N <= 0) {
+    // Cas dégénéré : aligné sur le moteur Rust (prime définie, total nul).
     return {
       monthlyPayment: 0,
-      monthlyInsurance: 0,
-      monthlyTotal: 0,
+      monthlyInsurance: prime,
+      monthlyTotal: prime,
       totalInterest: 0,
       totalInsurance: 0,
       totalCost: p.principal,

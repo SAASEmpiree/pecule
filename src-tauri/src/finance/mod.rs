@@ -46,3 +46,44 @@ impl SeriesPoint {
         }
     }
 }
+
+/// Plafond métier de projection : **200 ans** (2400 mois). Borne l'allocation
+/// des séries temporelles et neutralise toute durée non finie ou démesurée.
+pub const MAX_PROJECTION_MONTHS: u32 = 200 * 12;
+
+/// Nombre de mois à projeter pour une durée en années : `round(years · 12)`,
+/// avec plancher 0 et plafond [`MAX_PROJECTION_MONTHS`]. Une durée non finie
+/// (NaN, ±∞) ou ≤ 0 donne 0.
+///
+/// Mutualisé par tous les moteurs : garantit une allocation bornée (jamais de
+/// `Vec` géant) et un comportement identique face aux entrées aberrantes.
+pub fn months_count(years: f64) -> u32 {
+    if !years.is_finite() || years <= 0.0 {
+        return 0;
+    }
+    let n = (years * 12.0).round();
+    if n >= f64::from(MAX_PROJECTION_MONTHS) {
+        MAX_PROJECTION_MONTHS
+    } else {
+        // `n` est fini, positif et < MAX : le cast est exact.
+        n as u32
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn months_count_is_bounded_and_safe() {
+        assert_eq!(months_count(0.0), 0);
+        assert_eq!(months_count(-5.0), 0);
+        assert_eq!(months_count(f64::NAN), 0);
+        assert_eq!(months_count(f64::INFINITY), 0);
+        assert_eq!(months_count(10.0), 120);
+        assert_eq!(months_count(1.5), 18);
+        // Durées absurdes : plafonnées à 200 ans, jamais d'allocation géante.
+        assert_eq!(months_count(500.0), MAX_PROJECTION_MONTHS);
+        assert_eq!(months_count(1.0e9), MAX_PROJECTION_MONTHS);
+    }
+}

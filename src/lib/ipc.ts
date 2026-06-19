@@ -3,6 +3,10 @@
 //
 // En application native : appelle le moteur Rust (source de vérité). Hors Tauri
 // (prévisualisation navigateur) : retombe sur le moteur TS de `sim-fallback`.
+//
+// Toutes les entrées numériques sont **assainies** ici : un champ `<input number>`
+// vidé donne `null`/`NaN`, ce qui ferait échouer la désérialisation `f64` côté
+// Rust (invoke rejeté). On garantit donc des nombres finis avant tout appel.
 import { invoke } from "@tauri-apps/api/core";
 import * as fallback from "./sim-fallback";
 
@@ -70,19 +74,44 @@ export function isTauri(): boolean {
   return typeof window !== "undefined" && "__TAURI_INTERNALS__" in window;
 }
 
-export async function simulateCompound(params: CompoundParams): Promise<CompoundResult> {
+/** Coerce une entrée en nombre fini (un `<input number>` vidé donne null/NaN). */
+function num(x: unknown, fallbackValue = 0): number {
+  const n = typeof x === "number" ? x : Number(x);
+  return Number.isFinite(n) ? n : fallbackValue;
+}
+
+export async function simulateCompound(p: CompoundParams): Promise<CompoundResult> {
+  const params: CompoundParams = {
+    principal: num(p.principal),
+    annualRate: num(p.annualRate),
+    years: num(p.years),
+    compoundsPerYear: Math.max(1, Math.trunc(num(p.compoundsPerYear, 1))),
+  };
   return isTauri()
     ? invoke<CompoundResult>("simulate_compound", { params })
     : fallback.compound(params);
 }
 
-export async function simulateSavings(params: SavingsParams): Promise<SavingsResult> {
+export async function simulateSavings(p: SavingsParams): Promise<SavingsResult> {
+  const params: SavingsParams = {
+    initial: num(p.initial),
+    monthlyContribution: num(p.monthlyContribution),
+    annualRate: num(p.annualRate),
+    years: num(p.years),
+    timing: p.timing === "start" ? "start" : "end",
+  };
   return isTauri()
     ? invoke<SavingsResult>("simulate_savings", { params })
     : fallback.savings(params);
 }
 
-export async function simulateLoan(params: LoanParams): Promise<LoanResult> {
+export async function simulateLoan(p: LoanParams): Promise<LoanResult> {
+  const params: LoanParams = {
+    principal: num(p.principal),
+    annualRate: num(p.annualRate),
+    termMonths: Math.max(0, Math.trunc(num(p.termMonths))),
+    insuranceAnnualRate: num(p.insuranceAnnualRate),
+  };
   return isTauri()
     ? invoke<LoanResult>("simulate_loan", { params })
     : fallback.loan(params);

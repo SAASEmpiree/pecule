@@ -17,6 +17,8 @@
 
   let result = $state<SavingsResult | null>(null);
   let cursorYear = $state<number | undefined>(undefined);
+  // Jeton anti-course : seul le dernier calcul lancé peut écrire `result`.
+  let runId = 0;
 
   const timingOptions = $derived([
     { value: "start" as Timing, label: t("savings.timingStart") },
@@ -31,8 +33,11 @@
       years,
       timing,
     };
+    const myRun = ++runId;
     const id = setTimeout(() => {
-      simulateSavings(params).then((r) => (result = r));
+      simulateSavings(params).then((r) => {
+        if (myRun === runId) result = r;
+      });
     }, 40);
     return () => clearTimeout(id);
   });

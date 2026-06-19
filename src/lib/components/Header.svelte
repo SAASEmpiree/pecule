@@ -49,10 +49,13 @@
     display: flex;
     align-items: center;
     gap: var(--space-4);
-    /* Marge à gauche : réserve la place des feux natifs macOS (Overlay). */
-    padding: 0 var(--space-4) 0 78px;
+    padding: 0 var(--space-4);
     border-bottom: 1px solid var(--line);
     background: var(--surface);
+  }
+  /* Sur macOS uniquement (barre Overlay), réserver la place des feux natifs. */
+  :global(html.is-macos) .header {
+    padding-left: 78px;
   }
   .brand {
     display: flex;

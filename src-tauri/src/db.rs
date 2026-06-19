@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS accounts (
 
 CREATE TABLE IF NOT EXISTS holdings (
     id         INTEGER PRIMARY KEY,
-    account_id INTEGER NOT NULL REFERENCES accounts(id),
+    account_id INTEGER NOT NULL REFERENCES accounts(id) ON DELETE CASCADE,
     symbole    TEXT NOT NULL,
     type       TEXT NOT NULL,          -- action, etf, crypto…
     quantite   REAL NOT NULL,
@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS holdings (
 
 CREATE TABLE IF NOT EXISTS transactions (
     id         INTEGER PRIMARY KEY,
-    account_id INTEGER NOT NULL REFERENCES accounts(id),
+    account_id INTEGER NOT NULL REFERENCES accounts(id) ON DELETE CASCADE,
     symbole    TEXT NOT NULL,
     sens       TEXT NOT NULL,          -- 'achat' | 'vente'
     quantite   REAL NOT NULL,
@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS transactions (
 
 CREATE TABLE IF NOT EXISTS dividends (
     id         INTEGER PRIMARY KEY,
-    holding_id INTEGER NOT NULL REFERENCES holdings(id),
+    holding_id INTEGER NOT NULL REFERENCES holdings(id) ON DELETE CASCADE,
     montant    REAL NOT NULL,
     date       TEXT NOT NULL
 );
@@ -78,6 +78,8 @@ impl Db {
         conn.pragma_update(None, "journal_mode", "WAL")?;
         conn.pragma_update(None, "foreign_keys", "ON")?;
         conn.execute_batch(SCHEMA)?;
+        // Version de schéma pour de futures migrations (cf. PRAGMA user_version).
+        conn.pragma_update(None, "user_version", 1)?;
         Ok(Db(Mutex::new(conn)))
     }
 }

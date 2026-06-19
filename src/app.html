@@ -13,6 +13,15 @@
         var t = localStorage.getItem("pecule:theme");
         if (t === "light") document.documentElement.setAttribute("data-theme", "light");
       } catch (e) {}
+      try {
+        // Marque macOS : la barre de titre Overlay (feux natifs) n'existe que là,
+        // d'où un padding gauche réservé uniquement sur cette plateforme.
+        var plat =
+          (navigator.userAgentData && navigator.userAgentData.platform) ||
+          navigator.platform ||
+          navigator.userAgent;
+        if (/mac/i.test(plat)) document.documentElement.classList.add("is-macos");
+      } catch (e) {}
     </script>
     %sveltekit.head%
   </head>

@@ -15,6 +15,8 @@
 
   let result = $state<LoanResult | null>(null);
   let showMonthly = $state(false);
+  // Jeton anti-course : seul le dernier calcul lancé peut écrire `result`.
+  let runId = 0;
 
   $effect(() => {
     const params = {
@@ -23,8 +25,11 @@
       termMonths: Math.round(termYears * 12),
       insuranceAnnualRate: insurancePct / 100,
     };
+    const myRun = ++runId;
     const id = setTimeout(() => {
-      simulateLoan(params).then((r) => (result = r));
+      simulateLoan(params).then((r) => {
+        if (myRun === runId) result = r;
+      });
     }, 40);
     return () => clearTimeout(id);
   });
@@ -161,10 +166,10 @@
         <table class="amort">
           <thead>
             <tr>
-              <th>{showMonthly ? t("loan.month") : t("common.year")}</th>
+              <th>{showMonthly ? t("loan.month") : t("loan.yearCol")}</th>
               <th class="num">{t("loan.principalPart")}</th>
               <th class="num">{t("loan.interestPart")}</th>
-              {#if hasInsurance}<th class="num">{t("loan.totalInsurance")}</th>{/if}
+              {#if hasInsurance}<th class="num">{t("loan.insuranceCol")}</th>{/if}
               <th class="num">{t("loan.balance")}</th>
             </tr>
           </thead>

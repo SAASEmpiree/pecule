@@ -13,13 +13,15 @@ const dicts: Record<Locale, unknown> = { fr, en };
 let current = $state<Locale>("fr");
 
 if (browser) {
+  let initial: Locale = "fr";
   try {
     const saved = localStorage.getItem(KEY);
-    if (saved === "fr" || saved === "en") current = saved;
+    if (saved === "fr" || saved === "en") initial = saved;
   } catch {
     /* ignore */
   }
-  document.documentElement.lang = current;
+  current = initial;
+  document.documentElement.lang = initial;
 }
 
 /** Lecture réactive de la langue courante. */

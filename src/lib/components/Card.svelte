@@ -19,7 +19,7 @@
 </script>
 
 <section class="card {klass}" class:pad>
-  {#if title || actions}
+  {#if title || subtitle || actions}
     <header>
       <div class="titles">
         {#if title}<h2 class="h2">{title}</h2>{/if}

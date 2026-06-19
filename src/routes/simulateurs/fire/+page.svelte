@@ -8,4 +8,4 @@
   <h1 class="h1">{t("fire.title")}</h1>
 </div>
 
-<EmptyState icon={Flame} title={t("fire.title")} body={t("fire.body")} badge="v2" />
+<EmptyState icon={Flame} title={t("fire.comingTitle")} body={t("fire.body")} badge="v2" />

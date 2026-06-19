@@ -1,5 +1,7 @@
 // Dictionnaires de traduction. Le français est prioritaire (§22) ; l'anglais est
-// partiel et retombe sur le français pour les clés manquantes.
+// désormais complet pour toute l'UI v0.1. Toute clé manquante retombe sur le FR.
+//
+// Convention : ne définir que des clés réellement utilisées (pas de clé morte).
 
 export const fr = {
   app: {
@@ -24,50 +26,35 @@ export const fr = {
   },
   common: {
     years: "ans",
-    year: "an",
     perMonth: "/mois",
-    perYear: "/an",
     hypotheses: "Hypothèses",
     results: "Résultats",
     soon: "Bientôt",
-    comingIn: "Prévu en {v}",
-    reset: "Réinitialiser",
-    total: "Total",
-    contributed: "Versé",
-    interest: "Intérêts",
-    value: "Valeur",
-    rate: "Taux annuel",
-    duration: "Durée",
-    amount: "Montant",
     today: "aujourd'hui",
     inYears: "+{n} ans",
+    rate: "Taux annuel",
+    duration: "Durée",
+    contributed: "Versé",
     notAdvice: "Outil pédagogique — aucun conseil en investissement.",
     notAdviceLong:
       "Pécule est un outil de suivi et de pédagogie. Les projections reposent sur des hypothèses constantes et ne préjugent pas des performances réelles. Ceci ne constitue pas un conseil en investissement.",
   },
   dashboard: {
-    investedWealth: "Patrimoine investi",
-    subscriptionsCost: "Abonnements",
-    toRenew: "À renouveler",
-    nothingToRenew: "Aucun renouvellement proche",
     curveTitle: "La courbe",
-    projectionOver: "Projection sur",
-    emptyTitle: "Bienvenue dans Pécule",
-    emptyBody:
-      "Commencez par un simulateur — aucune donnée personnelle requise. Le portefeuille et les abonnements arriveront dans les prochaines versions.",
-    exploreSimulators: "Explorer les simulateurs",
-    sampleNote: "Exemple : {monthly} {per} placés à {rate}/an.",
     projectedValue: "Valeur projetée",
     ofWhichInterest: "dont {v} d'intérêts",
+    projectionOver: "Projection sur",
+    sampleNote: "Exemple : {monthly}{per} placés à {rate}/an.",
+    exploreSimulators: "Explorer les simulateurs",
   },
   compound: {
     title: "Intérêts composés",
     desc: "La croissance d'un capital placé une fois, sans versement.",
     principal: "Capital initial",
     frequency: "Capitalisation",
-    freqAnnual: "Annuelle",
     freqMonthly: "Mensuelle",
     freqQuarterly: "Trimestrielle",
+    freqAnnual: "Annuelle",
     finalValue: "Valeur finale",
     totalInterest: "Intérêts gagnés",
   },
@@ -97,21 +84,14 @@ export const fr = {
     totalCost: "Coût total du crédit",
     schedule: "Tableau d'amortissement",
     month: "Mois",
-    payment: "Mensualité",
+    yearCol: "Année",
+    insuranceCol: "Assurance",
     principalPart: "Capital",
     interestPart: "Intérêts",
     balance: "Restant dû",
-    showSchedule: "Afficher le tableau d'amortissement",
-    hideSchedule: "Masquer le tableau",
+    showSchedule: "Afficher le tableau mois par mois",
+    hideSchedule: "Afficher par année",
     yearN: "Année {n}",
-  },
-  fire: {
-    title: "Indépendance financière (FIRE)",
-    body: "L'objectif d'indépendance financière — taux de retrait, capital cible et années restantes — arrivera dans une prochaine version.",
-  },
-  simulatorsHub: {
-    title: "Simulateurs",
-    desc: "Projetez vos projets financiers. Aucune donnée personnelle requise.",
   },
   portfolio: {
     title: "Portefeuille",
@@ -141,21 +121,21 @@ export const fr = {
       "Seule entorse possible et optionnelle : le rafraîchissement de cours publics (prix d'un ETF, d'une action…), désactivé par défaut. Il n'envoie jamais vos positions.",
     about: "À propos",
     version: "Version",
-    disclaimerTitle: "Avertissement",
   },
   privacy: {
-    pill: "Local · vos chiffres restent chez vous",
     title: "Comment ça marche",
-    body1:
-      "Pécule fonctionne entièrement en local. Vos données financières sont stockées sur votre machine, jamais sur un serveur.",
-    body2:
-      "Aucun compte à créer, aucune banque à connecter. L'application fonctionne hors-ligne.",
-    body3:
-      "Si vous activez un jour le rafraîchissement des cours, seuls des prix publics sont récupérés — vos positions, elles, restent chez vous.",
   },
-} as const;
+  fire: {
+    title: "Indépendance financière (FIRE)",
+    comingTitle: "Disponible bientôt",
+    body: "L'objectif d'indépendance financière — taux de retrait, capital cible et années restantes — arrivera dans une prochaine version.",
+  },
+  simulatorsHub: {
+    title: "Simulateurs",
+    desc: "Projetez vos projets financiers. Aucune donnée personnelle requise.",
+  },
+};
 
-// Anglais partiel : complète le strict nécessaire, le reste retombe sur le FR.
 export const en = {
   app: {
     name: "Pécule",
@@ -170,7 +150,7 @@ export const en = {
     simCompound: "Compound interest",
     simSavings: "Regular savings",
     simLoan: "Mortgage",
-    simFire: "Financial independence",
+    simFire: "Independence (FIRE)",
   },
   header: {
     privacy: "Local · your numbers stay with you",
@@ -179,14 +159,84 @@ export const en = {
   },
   common: {
     years: "yrs",
-    year: "yr",
     perMonth: "/mo",
-    perYear: "/yr",
     hypotheses: "Assumptions",
     results: "Results",
+    soon: "Soon",
     today: "today",
     inYears: "+{n} yrs",
+    rate: "Annual rate",
+    duration: "Duration",
+    contributed: "Contributed",
     notAdvice: "Educational tool — not investment advice.",
+    notAdviceLong:
+      "Pécule is a tracking and educational tool. Projections rely on constant assumptions and do not predict real performance. This is not investment advice.",
+  },
+  dashboard: {
+    curveTitle: "The curve",
+    projectedValue: "Projected value",
+    ofWhichInterest: "incl. {v} of interest",
+    projectionOver: "Projection over",
+    sampleNote: "Example: {monthly}{per} invested at {rate}/yr.",
+    exploreSimulators: "Explore the simulators",
+  },
+  compound: {
+    title: "Compound interest",
+    desc: "How a one-time investment grows, with no contributions.",
+    principal: "Initial capital",
+    frequency: "Compounding",
+    freqMonthly: "Monthly",
+    freqQuarterly: "Quarterly",
+    freqAnnual: "Annual",
+    finalValue: "Final value",
+    totalInterest: "Interest earned",
+  },
+  savings: {
+    title: "Regular savings",
+    desc: "A starting capital plus constant monthly contributions.",
+    initial: "Starting capital",
+    monthly: "Monthly contribution",
+    timing: "Contribution",
+    timingStart: "Start of month",
+    timingEnd: "End of month",
+    finalValue: "Final value",
+    totalContributed: "Total contributed",
+    totalInterest: "Interest earned",
+  },
+  loan: {
+    title: "Mortgage",
+    desc: "Monthly payment, total cost and amortization schedule.",
+    amount: "Amount borrowed",
+    term: "Term (years)",
+    insurance: "Insurance (annual rate)",
+    monthlyPayment: "Payment (excl. insurance)",
+    monthlyInsurance: "Insurance / mo",
+    monthlyTotal: "Total monthly payment",
+    totalInterest: "Interest cost",
+    totalInsurance: "Insurance cost",
+    totalCost: "Total cost of credit",
+    schedule: "Amortization schedule",
+    month: "Month",
+    yearCol: "Year",
+    insuranceCol: "Insurance",
+    principalPart: "Principal",
+    interestPart: "Interest",
+    balance: "Balance",
+    showSchedule: "Show month by month",
+    hideSchedule: "Show by year",
+    yearN: "Year {n}",
+  },
+  portfolio: {
+    title: "Portfolio",
+    emptyTitle: "Portfolio tracking is coming soon",
+    emptyBody:
+      "You'll be able to enter your positions (stocks, ETFs, crypto) or import your broker's CSV. Everything stays on your machine.",
+  },
+  subscriptions: {
+    title: "Subscriptions",
+    emptyTitle: "The subscription tracker is coming soon",
+    emptyBody:
+      "List your subscriptions, see their real yearly cost and get notified before each renewal.",
   },
   settings: {
     title: "Settings",
@@ -197,6 +247,25 @@ export const en = {
     language: "Language",
     french: "Français",
     english: "English",
+    privacyTitle: "Privacy",
+    privacyBody:
+      "Everything is stored on your machine. No account, no connected bank, no telemetry, no ads. Your positions never leave the device.",
+    quotesNuance:
+      "The only possible, optional exception: refreshing public quotes (an ETF or stock price…), disabled by default. It never sends your positions.",
+    about: "About",
+    version: "Version",
+  },
+  privacy: {
+    title: "How it works",
+  },
+  fire: {
+    title: "Financial independence (FIRE)",
+    comingTitle: "Coming soon",
+    body: "The financial-independence goal — withdrawal rate, target capital and remaining years — will arrive in a future version.",
+  },
+  simulatorsHub: {
+    title: "Simulators",
+    desc: "Project your financial plans. No personal data required.",
   },
 };
 

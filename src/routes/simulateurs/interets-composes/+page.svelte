@@ -16,6 +16,8 @@
 
   let result = $state<CompoundResult | null>(null);
   let cursorYear = $state<number | undefined>(undefined);
+  // Jeton anti-course : seul le dernier calcul lancé peut écrire `result`.
+  let runId = 0;
 
   const freqOptions = $derived([
     { value: 12, label: t("compound.freqMonthly") },
@@ -30,8 +32,11 @@
       years,
       compoundsPerYear: freq,
     };
+    const myRun = ++runId;
     const id = setTimeout(() => {
-      simulateCompound(params).then((r) => (result = r));
+      simulateCompound(params).then((r) => {
+        if (myRun === runId) result = r;
+      });
     }, 40);
     return () => clearTimeout(id);
   });

@@ -53,23 +53,6 @@ pub struct SavingsResult {
     pub series: Vec<SeriesPoint>,
 }
 
-/// Nombre de mois `N = round(years · 12)`, plancher à 0 (durée négative => 0).
-///
-/// Le résultat est borné dans `u32` : une durée non finie ou démesurée est
-/// ramenée à `u32::MAX` plutôt que de produire un cast indéfini.
-fn months_count(years: f64) -> u32 {
-    if !years.is_finite() || years <= 0.0 {
-        return 0;
-    }
-    let n = (years * 12.0).round();
-    if n >= f64::from(u32::MAX) {
-        u32::MAX
-    } else {
-        // `n` est fini, positif et < u32::MAX : le cast est exact.
-        n as u32
-    }
-}
-
 /// Valeur de l'épargne au mois `k`, pour un facteur mensuel `i` donné.
 ///
 /// - `End`   : `initial·(1+i)^k + PMT·((1+i)^k − 1)/i`
@@ -114,7 +97,7 @@ pub fn savings(params: &SavingsParams) -> SavingsResult {
     } = *params;
 
     let i = annual_rate / 12.0;
-    let n = months_count(years);
+    let n = super::months_count(years);
 
     // Un point par mois, de k = 0 à k = N inclus => N + 1 points.
     let mut series = Vec::with_capacity((n as usize).saturating_add(1));

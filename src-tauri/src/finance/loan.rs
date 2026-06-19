@@ -90,7 +90,9 @@ fn monthly_payment(principal: f64, monthly_rate: f64, n: u32) -> f64 {
 /// (l'arrondi résiduel est reporté sur le `principal_part` et le `payment` du
 /// dernier mois).
 pub fn loan(params: &LoanParams) -> LoanResult {
-    let n = params.term_months;
+    // Durée bornée (cf. `super::MAX_PROJECTION_MONTHS`) pour éviter une
+    // allocation démesurée du tableau et un cast `n as i32` débordant.
+    let n = params.term_months.min(super::MAX_PROJECTION_MONTHS);
     let monthly_rate = params.annual_rate / 12.0;
     let base_payment = monthly_payment(params.principal, monthly_rate, n);
 

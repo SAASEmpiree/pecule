@@ -21,8 +21,14 @@
 
   const uid = $props.id();
 
-  // Garde-fou : on borne la valeur dans [min, max] lorsqu'elle sort des limites
-  // (ex. saisie au clavier), sans gêner la frappe intermédiaire.
+  // À la frappe : on plafonne au max et on neutralise les valeurs non finies,
+  // sans imposer le min (pour laisser saisir librement vers le haut). Évite
+  // qu'une valeur démesurée alimente les moteurs pendant la saisie.
+  function clampMax() {
+    if (Number.isFinite(value) && value > max) value = max;
+  }
+  // À la validation (blur/Entrée) : on borne dans [min, max] et on récupère un
+  // champ vidé/non fini en le ramenant au min.
   function clamp() {
     if (!Number.isFinite(value)) value = min;
     else if (value < min) value = min;
@@ -44,6 +50,7 @@
       {max}
       {step}
       bind:value
+      oninput={clampMax}
       onchange={clamp}
     />
     {#if unit}<span class="unit small muted">{unit}</span>{/if}

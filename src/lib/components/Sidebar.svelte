@@ -60,18 +60,23 @@
       {#each sims as item (item.href)}
         {@const Icon = item.icon}
         <li>
-          <a
-            href={item.soon ? undefined : item.href}
-            class="item"
-            class:active={isActive(item.href, $page.url.pathname)}
-            class:disabled={item.soon}
-            aria-disabled={item.soon ? "true" : undefined}
-            aria-current={isActive(item.href, $page.url.pathname) ? "page" : undefined}
-          >
-            <Icon size={17} aria-hidden="true" />
-            <span>{t(item.key)}</span>
-            {#if item.soon}<span class="badge small">{t("common.soon")}</span>{/if}
-          </a>
+          {#if item.soon}
+            <span class="item disabled">
+              <Icon size={17} aria-hidden="true" />
+              <span>{t(item.key)}</span>
+              <span class="badge small">{t("common.soon")}</span>
+            </span>
+          {:else}
+            <a
+              href={item.href}
+              class="item"
+              class:active={isActive(item.href, $page.url.pathname)}
+              aria-current={isActive(item.href, $page.url.pathname) ? "page" : undefined}
+            >
+              <Icon size={17} aria-hidden="true" />
+              <span>{t(item.key)}</span>
+            </a>
+          {/if}
         </li>
       {/each}
     </ul>

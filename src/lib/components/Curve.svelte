@@ -58,12 +58,31 @@
   const valueArea = $derived(area("value"));
   const contribLine = $derived(showContributed ? line("contributed") : "");
 
-  const grid = $derived([yMax / 2, yMax]);
+  // Lignes de grille, dédupliquées par libellé (évite « 1 € » / « 1 € » quand
+  // yMax est petit).
+  const grid = $derived.by(() => {
+    const seen = new Set<string>();
+    const out: { v: number; label: string }[] = [];
+    for (const v of [yMax / 2, yMax]) {
+      const label = format(v);
+      if (!seen.has(label)) {
+        seen.add(label);
+        out.push({ v, label });
+      }
+    }
+    return out;
+  });
 
-  // — Curseur : on borne dans [0, xMax] et on initialise à l'horizon. —
+  // — Curseur : épinglé à l'horizon par défaut, il SUIT la durée tant que
+  // l'utilisateur n'a pas saisi le curseur ; ensuite il respecte sa position
+  // (bornée à [0, xMax]). Comportement symétrique quand la durée change. —
+  let pinned = $state(true);
   $effect(() => {
-    const end = Math.round(xMax);
-    if (cursorYear === undefined || cursorYear > xMax) cursorYear = end;
+    if (pinned) {
+      cursorYear = Math.round(xMax);
+    } else if (cursorYear !== undefined && cursorYear > xMax) {
+      cursorYear = Math.round(xMax);
+    }
   });
   const effCursor = $derived(Math.min(Math.max(cursorYear ?? xMax, 0), xMax));
 
@@ -117,9 +136,9 @@
         </linearGradient>
       </defs>
 
-      {#each grid as g (g)}
-        <line class="grid" x1={padL} x2={cw - padR} y1={Y(g)} y2={Y(g)} />
-        <text class="axis" x={padL} y={Y(g) - 5}>{format(g)}</text>
+      {#each grid as g (g.label)}
+        <line class="grid" x1={padL} x2={cw - padR} y1={Y(g.v)} y2={Y(g.v)} />
+        <text class="axis" x={padL} y={Y(g.v) - 5}>{g.label}</text>
       {/each}
 
       <path class="area" d={valueArea} fill="url(#grad-{uid})" />
@@ -133,9 +152,11 @@
       <circle class="dot" cx={cx} cy={cyVal} r="4.5" />
 
       <text class="axis" x={padL} y={height - 6}>{t("common.today")}</text>
-      <text class="axis end" x={cw - padR} y={height - 6}
-        >{t("common.inYears", { n: Math.round(xMax) })}</text
-      >
+      {#if Math.round(xMax) >= 1}
+        <text class="axis end" x={cw - padR} y={height - 6}
+          >{t("common.inYears", { n: Math.round(xMax) })}</text
+        >
+      {/if}
     </svg>
   </div>
 
@@ -149,7 +170,10 @@
         max={xMax}
         step={sliderStep}
         value={effCursor}
-        oninput={(e) => (cursorYear = +e.currentTarget.value)}
+        oninput={(e) => {
+          pinned = false;
+          cursorYear = +e.currentTarget.value;
+        }}
         aria-label={t("dashboard.projectionOver")}
         aria-valuetext={horizonLabel}
       />

@@ -8,13 +8,15 @@ const KEY = "pecule:theme";
 let current = $state<Theme>("dark");
 
 if (browser) {
+  let initial: Theme = "dark";
   try {
     const saved = localStorage.getItem(KEY);
-    if (saved === "light" || saved === "dark") current = saved;
+    if (saved === "light" || saved === "dark") initial = saved;
   } catch {
     /* localStorage indisponible : on garde le défaut */
   }
-  applyTheme(current);
+  current = initial;
+  applyTheme(initial);
 }
 
 function applyTheme(t: Theme) {
