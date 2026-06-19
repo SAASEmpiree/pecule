@@ -31,6 +31,10 @@ pub fn run() {
             commands::simulate::simulate_loan,
             commands::settings::get_setting,
             commands::settings::set_setting,
+            commands::portfolio::list_holdings,
+            commands::portfolio::add_holding,
+            commands::portfolio::update_holding,
+            commands::portfolio::delete_holding,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

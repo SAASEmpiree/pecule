@@ -78,10 +78,29 @@ impl Db {
         conn.pragma_update(None, "journal_mode", "WAL")?;
         conn.pragma_update(None, "foreign_keys", "ON")?;
         conn.execute_batch(SCHEMA)?;
-        // Version de schéma pour de futures migrations (cf. PRAGMA user_version).
-        conn.pragma_update(None, "user_version", 1)?;
+        migrate(&conn)?;
         Ok(Db(Mutex::new(conn)))
     }
+}
+
+/// Migrations idempotentes pilotées par `PRAGMA user_version`.
+/// v1 = schéma de base ; v2 = portefeuille (colonnes `nom`/`prix_actuel` sur
+/// `holdings` + compte par défaut).
+fn migrate(conn: &Connection) -> rusqlite::Result<()> {
+    let version: i64 = conn.query_row("PRAGMA user_version", [], |r| r.get(0))?;
+    if version < 1 {
+        // Le schéma de base correspond à la v1.
+        conn.pragma_update(None, "user_version", 1)?;
+    }
+    if version < 2 {
+        conn.execute_batch(
+            "ALTER TABLE holdings ADD COLUMN nom TEXT NOT NULL DEFAULT '';
+             ALTER TABLE holdings ADD COLUMN prix_actuel REAL NOT NULL DEFAULT 0;
+             INSERT OR IGNORE INTO accounts (id, nom, type) VALUES (1, 'Mon portefeuille', 'CTO');",
+        )?;
+        conn.pragma_update(None, "user_version", 2)?;
+    }
+    Ok(())
 }
 
 #[cfg(test)]

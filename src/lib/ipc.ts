@@ -140,3 +140,62 @@ export async function setSetting(key: string, value: string): Promise<void> {
   }
   await invoke("set_setting", { key, value });
 }
+
+// — Portefeuille (v0.2) — persistance SQLite en natif, localStorage en navigateur. —
+export interface Holding {
+  id: number;
+  nom: string;
+  symbole: string;
+  type: string;
+  quantite: number;
+  pru: number;
+  prixActuel: number;
+  devise: string;
+}
+export type NewHolding = Omit<Holding, "id">;
+
+const HOLDINGS_KEY = "pecule:holdings";
+function lsHoldings(): Holding[] {
+  try {
+    const v = JSON.parse(localStorage.getItem(HOLDINGS_KEY) || "[]");
+    return Array.isArray(v) ? v : [];
+  } catch {
+    return [];
+  }
+}
+function saveHoldings(h: Holding[]): void {
+  try {
+    localStorage.setItem(HOLDINGS_KEY, JSON.stringify(h));
+  } catch {
+    /* ignore */
+  }
+}
+
+export async function listHoldings(): Promise<Holding[]> {
+  return isTauri() ? invoke<Holding[]>("list_holdings") : lsHoldings();
+}
+
+export async function addHolding(holding: NewHolding): Promise<number> {
+  if (isTauri()) return invoke<number>("add_holding", { holding });
+  const list = lsHoldings();
+  const id = list.reduce((m, h) => Math.max(m, h.id), 0) + 1;
+  list.push({ ...holding, id });
+  saveHoldings(list);
+  return id;
+}
+
+export async function updateHolding(holding: Holding): Promise<void> {
+  if (isTauri()) {
+    await invoke("update_holding", { holding });
+    return;
+  }
+  saveHoldings(lsHoldings().map((h) => (h.id === holding.id ? holding : h)));
+}
+
+export async function deleteHolding(id: number): Promise<void> {
+  if (isTauri()) {
+    await invoke("delete_holding", { id });
+    return;
+  }
+  saveHoldings(lsHoldings().filter((h) => h.id !== id));
+}

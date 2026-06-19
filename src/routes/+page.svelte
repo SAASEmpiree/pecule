@@ -45,8 +45,10 @@
     }),
   );
 
-  const pillars = $derived([
-    { href: "/portefeuille", icon: Wallet, label: t("nav.portfolio"), badge: "v0.2" },
+  const pillars = $derived<
+    { href: string; icon: typeof Wallet; label: string; badge?: string }[]
+  >([
+    { href: "/portefeuille", icon: Wallet, label: t("nav.portfolio") },
     { href: "/abonnements", icon: CalendarClock, label: t("nav.subscriptions"), badge: "v0.3" },
   ]);
 </script>
@@ -101,7 +103,7 @@
       <a class="pillar card pad" href={p.href}>
         <div class="ic"><Icon size={20} aria-hidden="true" /></div>
         <span class="lbl">{p.label}</span>
-        <span class="badge">{p.badge}</span>
+        {#if p.badge}<span class="badge">{p.badge}</span>{/if}
       </a>
     {/each}
   </div>
