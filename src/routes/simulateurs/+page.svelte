@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { TrendingUp, PiggyBank, Landmark, Flame } from "@lucide/svelte";
+  import { TrendingUp, PiggyBank, Landmark, Flame, Scale } from "@lucide/svelte";
   import { t } from "$lib/i18n";
 
   const sims = $derived([
@@ -29,6 +29,13 @@
       icon: Flame,
       title: t("fire.title"),
       desc: t("fire.desc"),
+      soon: false,
+    },
+    {
+      href: "/simulateurs/fiscalite",
+      icon: Scale,
+      title: t("tax.title"),
+      desc: t("tax.desc"),
       soon: false,
     },
   ]);

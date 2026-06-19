@@ -14,6 +14,8 @@
     Languages,
     Coins,
     Receipt,
+    Flame,
+    Scale,
   } from "@lucide/svelte";
   import type { Component } from "svelte";
   import { t, loc, setLocale } from "$lib/i18n";
@@ -47,6 +49,8 @@
     { id: "sim-c", label: t("nav.simCompound"), group: t("palette.navigate"), icon: TrendingUp, run: () => go("/simulateurs/interets-composes") },
     { id: "sim-s", label: t("nav.simSavings"), group: t("palette.navigate"), icon: PiggyBank, run: () => go("/simulateurs/epargne") },
     { id: "sim-l", label: t("nav.simLoan"), group: t("palette.navigate"), icon: Landmark, run: () => go("/simulateurs/pret") },
+    { id: "sim-fire", label: t("nav.simFire"), group: t("palette.navigate"), icon: Flame, run: () => go("/simulateurs/fire") },
+    { id: "tax", label: t("nav.tax"), group: t("palette.navigate"), icon: Scale, run: () => go("/simulateurs/fiscalite") },
     { id: "settings", label: t("nav.settings"), group: t("palette.navigate"), icon: Settings, run: () => go("/reglages") },
     { id: "add-pos", label: t("portfolio.addPosition"), group: t("palette.actions"), icon: Plus, run: () => go("/portefeuille") },
     { id: "theme", label: t("palette.toggleTheme"), group: t("palette.actions"), icon: SunMoon, run: () => toggleTheme(), keepOpen: true },

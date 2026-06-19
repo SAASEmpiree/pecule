@@ -12,6 +12,7 @@
     Flame,
     Coins,
     Receipt,
+    Scale,
   } from "@lucide/svelte";
   import { t } from "$lib/i18n";
 
@@ -26,6 +27,7 @@
     { href: "/simulateurs/epargne", icon: PiggyBank, key: "nav.simSavings" },
     { href: "/simulateurs/pret", icon: Landmark, key: "nav.simLoan" },
     { href: "/simulateurs/fire", icon: Flame, key: "nav.simFire" },
+    { href: "/simulateurs/fiscalite", icon: Scale, key: "nav.tax" },
   ];
   const secondary = [
     { href: "/abonnements", icon: CalendarClock, key: "nav.subscriptions" },

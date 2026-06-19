@@ -20,6 +20,7 @@ export const fr = {
     simSavings: "Épargne régulière",
     simLoan: "Prêt immobilier",
     simFire: "Indépendance (FIRE)",
+    tax: "Fiscalité",
   },
   header: {
     privacy: "Local · vos chiffres restent chez vous",
@@ -241,6 +242,29 @@ export const fr = {
   privacy: {
     title: "Comment ça marche",
   },
+  tax: {
+    title: "Fiscalité (repère FR)",
+    desc: "Repères pédagogiques sur les enveloppes françaises. Ce ne sont pas des conseils ; vérifiez les taux en vigueur.",
+    pfuTitle: "Flat tax (PFU 30 %) sur une plus-value",
+    gain: "Plus-value imposable",
+    ir: "Impôt sur le revenu (12,8 %)",
+    ps: "Prélèvements sociaux (17,2 %)",
+    totalTax: "Imposition totale (30 %)",
+    net: "Net après impôts",
+    envelopes: "Enveloppes d'investissement",
+    pea: "PEA",
+    peaDesc:
+      "Exonération d'impôt sur le revenu après 5 ans (les prélèvements sociaux de 17,2 % restent dus). Plafond de versements : 150 000 €.",
+    cto: "CTO (compte-titres ordinaire)",
+    ctoDesc:
+      "Gains soumis au PFU de 30 % (12,8 % IR + 17,2 % PS), ou au barème de l'impôt sur le revenu sur option.",
+    av: "Assurance-vie",
+    avDesc:
+      "Après 8 ans : abattement annuel de 4 600 € (9 200 € pour un couple) sur les gains rachetés ; prélèvements sociaux de 17,2 %.",
+    per: "PER (plan épargne retraite)",
+    perDesc:
+      "Versements déductibles du revenu imposable (dans les plafonds) ; imposition à la sortie.",
+  },
   fire: {
     title: "Indépendance financière (FIRE)",
     desc: "Quand votre capital couvre vos dépenses : combien viser, et dans combien de temps.",
@@ -277,6 +301,7 @@ export const en = {
     simSavings: "Regular savings",
     simLoan: "Mortgage",
     simFire: "Independence (FIRE)",
+    tax: "Taxes",
   },
   header: {
     privacy: "Local · your numbers stay with you",
@@ -497,6 +522,29 @@ export const en = {
   },
   privacy: {
     title: "How it works",
+  },
+  tax: {
+    title: "Taxes (French guide)",
+    desc: "Educational guide to French wrappers. Not advice; check the rates in force.",
+    pfuTitle: "Flat tax (PFU 30%) on a capital gain",
+    gain: "Taxable gain",
+    ir: "Income tax (12.8%)",
+    ps: "Social levies (17.2%)",
+    totalTax: "Total tax (30%)",
+    net: "Net after tax",
+    envelopes: "Investment wrappers",
+    pea: "PEA",
+    peaDesc:
+      "Income-tax exemption after 5 years (17.2% social levies still apply). Contribution cap: €150,000.",
+    cto: "CTO (standard brokerage account)",
+    ctoDesc:
+      "Gains taxed at the 30% flat tax (12.8% income tax + 17.2% social levies), or at the income-tax scale on option.",
+    av: "Life insurance (assurance-vie)",
+    avDesc:
+      "After 8 years: yearly allowance of €4,600 (€9,200 per couple) on withdrawn gains; 17.2% social levies.",
+    per: "PER (retirement savings plan)",
+    perDesc:
+      "Contributions deductible from taxable income (within caps); taxed on withdrawal.",
   },
   fire: {
     title: "Financial independence (FIRE)",
