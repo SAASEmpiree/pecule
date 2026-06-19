@@ -19,11 +19,11 @@
     { href: "/patrimoine", icon: Coins, key: "nav.networth" },
     { href: "/portefeuille", icon: Wallet, key: "nav.portfolio" },
   ];
-  const sims = [
+  const sims: { href: string; icon: typeof TrendingUp; key: string; soon?: boolean }[] = [
     { href: "/simulateurs/interets-composes", icon: TrendingUp, key: "nav.simCompound" },
     { href: "/simulateurs/epargne", icon: PiggyBank, key: "nav.simSavings" },
     { href: "/simulateurs/pret", icon: Landmark, key: "nav.simLoan" },
-    { href: "/simulateurs/fire", icon: Flame, key: "nav.simFire", soon: true },
+    { href: "/simulateurs/fire", icon: Flame, key: "nav.simFire" },
   ];
   const secondary = [
     { href: "/abonnements", icon: CalendarClock, key: "nav.subscriptions" },

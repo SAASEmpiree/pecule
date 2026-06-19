@@ -28,8 +28,8 @@
       href: "/simulateurs/fire",
       icon: Flame,
       title: t("fire.title"),
-      desc: t("fire.body"),
-      soon: true,
+      desc: t("fire.desc"),
+      soon: false,
     },
   ]);
 </script>

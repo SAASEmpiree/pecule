@@ -29,6 +29,7 @@ pub fn run() {
             commands::simulate::simulate_compound,
             commands::simulate::simulate_savings,
             commands::simulate::simulate_loan,
+            commands::simulate::simulate_fire,
             commands::settings::get_setting,
             commands::settings::set_setting,
             commands::portfolio::list_holdings,

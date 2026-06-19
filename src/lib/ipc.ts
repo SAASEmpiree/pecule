@@ -69,6 +69,22 @@ export interface LoanResult {
   schedule: AmortRow[];
 }
 
+export interface FireParams {
+  initialCapital: number;
+  monthlyContribution: number;
+  annualRate: number;
+  annualExpenses: number;
+  withdrawalRate: number;
+}
+export interface FireResult {
+  fiNumber: number;
+  monthsToFi: number | null;
+  yearsToFi: number | null;
+  finalCapital: number;
+  targetReached: boolean;
+  series: SeriesPoint[];
+}
+
 /** Vrai si l'on tourne dans l'application native Tauri. */
 export function isTauri(): boolean {
   return typeof window !== "undefined" && "__TAURI_INTERNALS__" in window;
@@ -115,6 +131,19 @@ export async function simulateLoan(p: LoanParams): Promise<LoanResult> {
   return isTauri()
     ? invoke<LoanResult>("simulate_loan", { params })
     : fallback.loan(params);
+}
+
+export async function simulateFire(p: FireParams): Promise<FireResult> {
+  const params: FireParams = {
+    initialCapital: num(p.initialCapital),
+    monthlyContribution: num(p.monthlyContribution),
+    annualRate: num(p.annualRate),
+    annualExpenses: num(p.annualExpenses),
+    withdrawalRate: num(p.withdrawalRate),
+  };
+  return isTauri()
+    ? invoke<FireResult>("simulate_fire", { params })
+    : fallback.fire(params);
 }
 
 // — Réglages persistés (table settings) — disponibles uniquement en natif. —

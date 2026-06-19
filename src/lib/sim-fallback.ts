@@ -7,6 +7,8 @@ import type {
   AmortRow,
   CompoundParams,
   CompoundResult,
+  FireParams,
+  FireResult,
   LoanParams,
   LoanResult,
   SavingsParams,
@@ -112,5 +114,42 @@ export function loan(p: LoanParams): LoanResult {
     totalInsurance,
     totalCost: p.principal + totalInterest + totalInsurance,
     schedule,
+  };
+}
+
+export function fire(p: FireParams): FireResult {
+  const i = p.annualRate / 12;
+  const fiNumber = p.withdrawalRate > 0 ? p.annualExpenses / p.withdrawalRate : Infinity;
+  const MAX = 200 * 12;
+  const capitalAt = (k: number): number => {
+    if (i === 0) return p.initialCapital + p.monthlyContribution * k;
+    const g = Math.pow(1 + i, k);
+    return p.initialCapital * g + (p.monthlyContribution * (g - 1)) / i;
+  };
+  let monthsToFi: number | null = null;
+  if (Number.isFinite(fiNumber)) {
+    for (let k = 0; k <= MAX; k++) {
+      if (capitalAt(k) >= fiNumber) {
+        monthsToFi = k;
+        break;
+      }
+    }
+  }
+  const targetReached = monthsToFi !== null;
+  let horizon = monthsToFi !== null ? (Math.floor(monthsToFi / 12) + 1) * 12 : 50 * 12;
+  horizon = Math.min(Math.max(horizon, 12), MAX);
+  const series: SeriesPoint[] = [];
+  for (let k = 0; k <= horizon; k++) {
+    const value = capitalAt(k);
+    const contributed = p.initialCapital + p.monthlyContribution * k;
+    series.push({ year: k / 12, value, contributed, interest: value - contributed });
+  }
+  return {
+    fiNumber,
+    monthsToFi,
+    yearsToFi: monthsToFi !== null ? monthsToFi / 12 : null,
+    finalCapital: capitalAt(horizon),
+    targetReached,
+    series,
   };
 }

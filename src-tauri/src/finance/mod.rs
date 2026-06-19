@@ -16,6 +16,7 @@
 use serde::{Deserialize, Serialize};
 
 pub mod compound;
+pub mod fire;
 pub mod loan;
 pub mod savings;
 

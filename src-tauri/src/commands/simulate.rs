@@ -8,6 +8,7 @@
 //! démesurée côté moteur.
 
 use crate::finance::compound::{compound, CompoundParams, CompoundResult};
+use crate::finance::fire::{fire, FireParams, FireResult};
 use crate::finance::loan::{loan, LoanParams, LoanResult};
 use crate::finance::savings::{savings, SavingsParams, SavingsResult};
 
@@ -60,4 +61,14 @@ pub fn simulate_loan(mut params: LoanParams) -> LoanResult {
     params.insurance_annual_rate = amount(params.insurance_annual_rate);
     // `term_months` est borné par le moteur (cf. super::MAX_PROJECTION_MONTHS).
     loan(&params)
+}
+
+#[tauri::command]
+pub fn simulate_fire(mut params: FireParams) -> FireResult {
+    params.initial_capital = amount(params.initial_capital);
+    params.monthly_contribution = amount(params.monthly_contribution);
+    params.annual_rate = rate(params.annual_rate);
+    params.annual_expenses = amount(params.annual_expenses);
+    params.withdrawal_rate = finite(params.withdrawal_rate, 0.0).clamp(0.0, 1.0);
+    fire(&params)
 }
