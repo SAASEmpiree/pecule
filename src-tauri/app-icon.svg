@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#121821"/>
+      <stop offset="1" stop-color="#0B0F14"/>
+    </linearGradient>
+    <radialGradient id="bgGlow" cx="0.5" cy="0.34" r="0.72">
+      <stop offset="0" stop-color="#16BFA6" stop-opacity="0.16"/>
+      <stop offset="0.55" stop-color="#16BFA6" stop-opacity="0.04"/>
+      <stop offset="1" stop-color="#16BFA6" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="curve" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0" stop-color="#16BFA6"/>
+      <stop offset="1" stop-color="#2FBF71"/>
+    </linearGradient>
+    <linearGradient id="area" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#16BFA6" stop-opacity="0.42"/>
+      <stop offset="0.6" stop-color="#16BFA6" stop-opacity="0.12"/>
+      <stop offset="1" stop-color="#16BFA6" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="bar" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#16BFA6" stop-opacity="0.30"/>
+      <stop offset="1" stop-color="#16BFA6" stop-opacity="0.10"/>
+    </linearGradient>
+    <radialGradient id="tipGlow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#2FBF71" stop-opacity="0.9"/>
+      <stop offset="0.4" stop-color="#16BFA6" stop-opacity="0.45"/>
+      <stop offset="1" stop-color="#16BFA6" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Fond squircle macOS, coins transparents -->
+  <rect x="0" y="0" width="1024" height="1024" rx="224" ry="224" fill="url(#bg)"/>
+  <rect x="0" y="0" width="1024" height="1024" rx="224" ry="224" fill="url(#bgGlow)"/>
+
+  <!-- Lignes de grille très subtiles -->
+  <rect x="200" y="560" width="624" height="3" rx="1.5" fill="#E9EEF3" opacity="0.05"/>
+  <rect x="200" y="690" width="624" height="3" rx="1.5" fill="#E9EEF3" opacity="0.05"/>
+
+  <!-- Barres ascendantes discrètes -->
+  <rect x="316" y="640" width="86" height="184" rx="22" fill="url(#bar)"/>
+  <rect x="469" y="540" width="86" height="284" rx="22" fill="url(#bar)"/>
+  <rect x="622" y="430" width="86" height="394" rx="22" fill="url(#bar)"/>
+
+  <!-- Aire dégradée sous la courbe -->
+  <path d="M 220 700
+           C 330 668, 388 624, 470 560
+           C 560 490, 612 408, 740 318
+           L 740 824 L 220 824 Z"
+        fill="url(#area)"/>
+
+  <!-- Courbe signature -->
+  <path d="M 220 700
+           C 330 668, 388 624, 470 560
+           C 560 490, 612 408, 740 318"
+        fill="none" stroke="url(#curve)" stroke-width="56"
+        stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Lueur + point en bout de courbe -->
+  <circle cx="740" cy="318" r="86" fill="url(#tipGlow)"/>
+  <circle cx="740" cy="318" r="34" fill="#E9EEF3"/>
+  <circle cx="740" cy="318" r="20" fill="#2FBF71"/>
+</svg>
